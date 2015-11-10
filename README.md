@@ -4,6 +4,7 @@ React Chessboard
 Chessboard built in React, based off the React Drag and Drop tutorial.
 
 Tutorial: http://gaearon.github.io/react-dnd/examples-chessboard-tutorial-app.html
+
 Github: https://github.com/gaearon/react-dnd/tree/master/examples/00%20Chessboard/Tutorial%20App
 
 Purpose was to get a feel for React by expanding the scope of the tutorial to
