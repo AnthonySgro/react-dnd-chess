@@ -1,0 +1,30 @@
+{
+    "name": "react-dnd-chess",
+    "version": "0.1.0",
+    "description": "Simple chessboard app made in React",
+    "engines": {
+        "node": "0.12.7"
+    },
+    "main": "main.js",
+    "directories": {
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "ssh://git@github.com:reuben-bradley/react-chessboard.git"
+    },
+    "author": {
+        "name": "Reuben Bradley",
+        "email": "reuben.m.bradley@gmail.com"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "webpack": "^1.12.4",
+        "react": "^0.14.2",
+        "react-dom": "^0.14.2",
+        "react-dnd": "^2.0.2",
+        "react-dnd-html5-backend": "^2.0.0",
+        "jsx-loader": "^0.13.2"
+    }
+}
+
