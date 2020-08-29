@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core';
+
+import styles from './SquareStyles';
 
 const Square = (props) => {
-    const { black, children } = props;
+    const { classes, black, children } = props;
     const style = {
         backgroundColor: black ? '#c0c0c0' : '#ffffff'
     };
 
     return (
-        <div className="square" style={style}>{children}</div>
+        <div className={classes.square} style={style}>{children}</div>
     );
 }
 
@@ -20,4 +23,4 @@ Square.defaultProps = {
     black: false
 };
 
-export default Square;
+export default withStyles(styles)(Square);

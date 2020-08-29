@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
+import { withStyles } from '@material-ui/core';
 
 import Constants from 'Constants';
-import Square from 'Square';
+import Square from 'components/Square';
+import Highlight from 'components/Highlight';
+
+import styles from './BoardSquareStyles';
 
 const BoardSquare = (props) => {
-    const { isOver, canDrop, x, y } = props;
+    const { classes, isOver, canDrop, x, y } = props;
     const isBlack = (x + y) % 2 === 1;
 
     const renderOverlay = () => {
@@ -25,9 +29,9 @@ const BoardSquare = (props) => {
     };
 
     return props.connectDropTarget(
-        <div className="board-square">
+        <div className={classes.boardSquare}>
             <Square key={props.key} black={isBlack}>{props.children}</Square>
-            {renderOverlay()}
+            <Highlight canDrop={canDrop} isOver={isOver} />
         </div>
     );
 };
@@ -42,4 +46,4 @@ BoardSquare.propTypes = {
 
 export default DropTarget(
     Constants.ItemTypes.PIECE, Constants.DropTargets.SQUARE, Constants.DropTargets.collect
-)(BoardSquare);
+)(withStyles(styles)(BoardSquare));

@@ -1,10 +1,13 @@
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { withStyles } from '@material-ui/core';
 
 import Constants from 'Constants';
-import BoardSquare from 'BoardSquare';
-import ChessPiece from 'ChessPiece';
+import BoardSquare from 'components/BoardSquare';
+import ChessPiece from 'components/ChessPiece';
+
+import styles from './BoardStyles';
 
 class Board extends React.Component {
 
@@ -126,15 +129,13 @@ class Board extends React.Component {
         
         return (
             <DndProvider backend={HTML5Backend}>
-                <div>
-                    <h1>{this.state.turn}'s Turn</h1>
-                    <div className="board">
-                        {squares}
-                    </div>
+                <h1>{this.state.turn}'s Turn</h1>
+                <div className={this.props.classes.board}>
+                    {squares}
                 </div>
             </DndProvider>
         );
     }
 };
 
-export default Board;
+export default withStyles(styles)(Board);
