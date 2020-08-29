@@ -1,23 +1,24 @@
+import React from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
-var React = require('react');
-var BoardSquare = require('./BoardSquare');
-var ChessPiece = require('./ChessPiece');
-var DnDContext = require('react-dnd').DragDropContext;
-var HTML5Backend = require('react-dnd-html5-backend');
-var Constants = require('./Constants');
+import Constants from 'Constants';
+import BoardSquare from 'BoardSquare';
+import ChessPiece from 'ChessPiece';
 
-var Board = React.createClass({
-    
-    getInitialState: function () {
-        return {
+class Board extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
             turn: Constants.PieceColors.WHITE,
             pieces: Constants.PieceStartingPositions
         };
-    },
+    }
     
-    pieceCanMoveTo: function (pid, destX, destY) {
-        var dx, dy, target;
-        var p = this.state.pieces[pid];
+    pieceCanMoveTo(pid, destX, destY) {
+        let dx, dy, target, hasMoved;
+        const p = this.state.pieces[pid];
         if ( !p ) {
             return false;
         }
@@ -38,44 +39,39 @@ var Board = React.createClass({
                 return (
                     ( dx > 0 && !dy ) || ( !dx && dy > 0 )
                 );
-                break;
             case Constants.PieceTypes.KNIGHT:
                 return (
-                    ( dx == 1 && dy == 2 ) || ( dx == 2 && dy == 1 )
+                    ( dx === 1 && dy === 2 ) || ( dx === 2 && dy === 1 )
                 );
-                break;
             case Constants.PieceTypes.BISHOP:
                 return (
-                    ( dx == dy )
+                    ( dx === dy )
                 );
-                break;
             case Constants.PieceTypes.QUEEN:
                 return (
-                    ( dx == dy ) || ( dx > 0 && !dy ) || ( !dx && dy > 0 )
+                    ( dx === dy ) || ( dx > 0 && !dy ) || ( !dx && dy > 0 )
                 );
-                break;
             case Constants.PieceTypes.KING:
                 return (
                     // Ignore rules for castling, etc
                     ( dx > 0 || dy > 0 ) && dx + dy < 2
                 );
-                break;
             case Constants.PieceTypes.PAWN:
                 // Pawns are special: they can only move forward!
                 // Black can only increase Y, white can only decrease
                 var forward = (
-                    ( p.color == Constants.PieceColors.WHITE && p.y - destY > 0 )
-                    || ( p.color == Constants.PieceColors.BLACK && p.y - destY < 0 )
+                    ( p.color === Constants.PieceColors.WHITE && p.y - destY > 0 )
+                    || ( p.color === Constants.PieceColors.BLACK && p.y - destY < 0 )
                 );
                 return (
                     // Ignoring rules for capturing
-                    forward && !dx && ( dy == 1 || ( !hasMoved && dy == 2 ) )
+                    forward && !dx && ( dy === 1 || ( !hasMoved && dy === 2 ) )
                 );
-                break;
         }
         return false;
-    },
-    movePieceTo: function (pid, destX, destY) {
+    }
+
+    movePieceTo(pid, destX, destY) {
         if ( this.pieceCanMoveTo(pid, destX, destY) ) {
             var newTurn;
             var pieces = this.state.pieces;
@@ -85,7 +81,7 @@ var Board = React.createClass({
             piece.hasMoved = true;
             pieces[pid] = piece;
             
-            if ( this.state.turn == Constants.PieceColors.WHITE ) {
+            if ( this.state.turn === Constants.PieceColors.WHITE ) {
                 newTurn = Constants.PieceColors.BLACK;
             }
             else {
@@ -94,29 +90,33 @@ var Board = React.createClass({
             
             this.setState({ pieces: pieces, turn: newTurn });
         }
-    },
-    getPieceBySquare: function (x, y) {
-        var p, pObj, pieces = this.state.pieces;
-        for ( var p in pieces ) {
-            if ( pieces[p].x == x && pieces[p].y == y ) {
+    }
+
+    getPieceBySquare(x, y) {
+        let pObj, pieces = this.state.pieces;
+        for ( let p in pieces ) {
+            if ( pieces[p].x === x && pieces[p].y === y ) {
                 pObj = pieces[p];
                 pObj.id = p;
                 return pObj;
             }
         }
         return false;
-    },
-    renderPieceInSquare: function (x, y) {
+    }
+
+    renderPieceInSquare(x, y) {
         var piece = this.getPieceBySquare(x, y);
         if ( piece ) {
             return ( <ChessPiece board={this} piece={piece.pieceString} id={piece.id} /> );
         }
         return false;
-    },
-    renderSquare: function (x, y) {
+    }
+
+    renderSquare(x, y) {
         return ( <BoardSquare key={ x + y * 8 } x={x} y={y}>{this.renderPieceInSquare(x, y)}</BoardSquare> );
-    },
-    render: function () {
+    }
+
+    render() {
         var squares = [];
         for ( var y = 0; y < 8; y++ ) {
             for ( var x = 0; x < 8; x++ ) {
@@ -125,14 +125,16 @@ var Board = React.createClass({
         }
         
         return (
-            <div>
-                <h1>{this.state.turn}'s Turn</h1>
-                <div className="board">
-                    {squares}
+            <DndProvider backend={HTML5Backend}>
+                <div>
+                    <h1>{this.state.turn}'s Turn</h1>
+                    <div className="board">
+                        {squares}
+                    </div>
                 </div>
-            </div>
+            </DndProvider>
         );
     }
-});
+};
 
-module.exports = DnDContext(HTML5Backend)(Board);
+export default Board;

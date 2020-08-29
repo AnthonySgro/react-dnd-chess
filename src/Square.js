@@ -1,19 +1,23 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 
-var React = require('react');
+const Square = (props) => {
+    const { black, children } = props;
+    const style = {
+        backgroundColor: black ? '#c0c0c0' : '#ffffff'
+    };
 
-var Square = React.createClass({
-    propTypes: {
-        black: React.PropTypes.bool
-    },
+    return (
+        <div className="square" style={style}>{children}</div>
+    );
+}
 
-    render: function () {
-        var fill = this.props.black ? '#c0c0c0' : '#ffffff';
-        var style = {
-            backgroundColor: fill,
-        };
+Square.propTypes = {
+    black: PropTypes.bool.isRequired
+};
 
-        return <div className="square" style={style}>{this.props.children}</div>;
-    }
-});
+Square.defaultProps = {
+    black: false
+};
 
-module.exports = Square;
+export default Square;

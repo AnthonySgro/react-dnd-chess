@@ -1,20 +1,15 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { DropTarget } from 'react-dnd';
 
-var React = require('react');
-var DropTarget = require('react-dnd').DropTarget;
-var Square = require('./Square');
-var Constants = require('./Constants');
+import Constants from 'Constants';
+import Square from 'Square';
 
-var BoardSquare = React.createClass({
-    propTypes: {
-        x: React.PropTypes.number.isRequired,
-        y: React.PropTypes.number.isRequired,
-        isOver: React.PropTypes.bool.isRequired,
-        canDrop: React.PropTypes.bool.isRequired,
-        connectDropTarget: React.PropTypes.func.isRequired
-    },
-    renderOverlay: function () {
-        var isOver = this.props.isOver;
-        var canDrop = this.props.canDrop;
+const BoardSquare = (props) => {
+    const { isOver, canDrop, x, y } = props;
+    const isBlack = (x + y) % 2 === 1;
+
+    const renderOverlay = () => {
         if ( isOver ) {
             if ( canDrop ) {
                 return <div className="highlight valid-move" />;
@@ -27,19 +22,24 @@ var BoardSquare = React.createClass({
             return <div className="highlight suggest" />;
         }
         return false;
-    },
-    render: function () {
-        var isBlack = ( this.props.x + this.props.y ) % 2 == 1;
-        
-        return this.props.connectDropTarget(
-            <div className="board-square">
-                <Square key={this.props.key} black={isBlack}>{this.props.children}</Square>
-                {this.renderOverlay()}
-            </div>
-        );
-    }
-});
+    };
 
-module.exports = DropTarget(
+    return props.connectDropTarget(
+        <div className="board-square">
+            <Square key={props.key} black={isBlack}>{props.children}</Square>
+            {renderOverlay()}
+        </div>
+    );
+};
+
+BoardSquare.propTypes = {
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    isOver: PropTypes.bool.isRequired,
+    canDrop: PropTypes.bool.isRequired,
+    connectDropTarget: PropTypes.func.isRequired
+};
+
+export default DropTarget(
     Constants.ItemTypes.PIECE, Constants.DropTargets.SQUARE, Constants.DropTargets.collect
 )(BoardSquare);
