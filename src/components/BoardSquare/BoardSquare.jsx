@@ -13,21 +13,6 @@ const BoardSquare = (props) => {
     const { classes, isOver, canDrop, x, y } = props;
     const isBlack = (x + y) % 2 === 1;
 
-    const renderOverlay = () => {
-        if ( isOver ) {
-            if ( canDrop ) {
-                return <div className="highlight valid-move" />;
-            }
-            else {
-                return <div className="highlight invalid-move" />;
-            }
-        }
-        else if ( canDrop ) {
-            return <div className="highlight suggest" />;
-        }
-        return false;
-    };
-
     return props.connectDropTarget(
         <div className={classes.boardSquare}>
             <Square key={props.key} black={isBlack}>{props.children}</Square>

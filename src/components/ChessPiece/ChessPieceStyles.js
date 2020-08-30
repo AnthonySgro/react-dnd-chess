@@ -1,7 +1,11 @@
 const jssStyles = {
   piece: {
-    cursor: 'move',
-    verticalAlign: 'middle'
+    cursor: 'pointer',
+    fontSize: '8vh',
+    lineHeight: 1,
+    '&:hover': {
+      backgroundColor: '#d3d3d3'
+    }
   }
 };
 

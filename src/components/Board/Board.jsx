@@ -70,8 +70,9 @@ class Board extends React.Component {
                     // Ignoring rules for capturing
                     forward && !dx && ( dy === 1 || ( !hasMoved && dy === 2 ) )
                 );
+            default:
+                return false;
         }
-        return false;
     }
 
     movePieceTo(pid, destX, destY) {
