@@ -4,6 +4,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Board from 'components/Board/';
 
+import './index.css';
+
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
