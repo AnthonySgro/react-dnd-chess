@@ -34,43 +34,6 @@ Constants.PieceStrings = {
     WHITE_KING: '♔'
 };
 
-Constants.DragSources = {
-    collect: function (connect, monitor) {
-        return {
-            connectDragSource: connect.dragSource(),
-            isDragging: monitor.isDragging()
-        }
-    },
-    PIECE: {
-        beginDrag: function (props, connect, monitor) {
-            return { 
-                id: props.id,
-                board: props.board
-            };
-        }
-    }
-};
-
-Constants.DropTargets = {
-    collect: function (connect, monitor) {
-        return {
-            connectDropTarget: connect.dropTarget(),
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop()
-        }
-    },
-    SQUARE: {
-        canDrop: function(props, monitor) {
-            var item = monitor.getItem();
-            return item.board.pieceCanMoveTo(item.id, props.x, props.y);
-        },
-        drop: function (props, monitor) {
-            var item = monitor.getItem();
-            item.board.movePieceTo(item.id, props.x, props.y);
-        }
-    }
-};
-
 Constants.PieceStartingPositions = {
     // White backline pieces
     'wR1': {
@@ -271,4 +234,4 @@ Constants.PieceStartingPositions = {
     }
 };
 
-module.exports = Constants;
+export default Constants;

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { DropTarget } from 'react-dnd';
+import { useDrop } from 'react-dnd';
 import { withStyles } from '@material-ui/core';
 
+import { AppContext } from 'context';
 import Constants from 'Constants';
 import Square from 'components/Square';
 import Highlight from 'components/Highlight';
@@ -10,25 +11,32 @@ import Highlight from 'components/Highlight';
 import styles from './BoardSquareStyles';
 
 const BoardSquare = (props) => {
-    const { classes, isOver, canDrop, x, y } = props;
-    const isBlack = (x + y) % 2 === 1;
+  const { pieceCanMoveTo, movePieceTo } = useContext(AppContext);
+  const { classes, x, y } = props;
+  const isBlack = (x + y) % 2 === 1;
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: Constants.ItemTypes.PIECE,
+    drop: (item) => {
+      movePieceTo(item.id, x, y);
+    },
+    canDrop: (item) => pieceCanMoveTo(item.id, x, y),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop()
+    })
+  });
 
-    return props.connectDropTarget(
-        <div className={classes.boardSquare}>
-            <Square key={props.key} black={isBlack}>{props.children}</Square>
-            <Highlight canDrop={canDrop} isOver={isOver} />
-        </div>
-    );
+  return (
+    <div className={classes.boardSquare} ref={drop}>
+      <Square key={props.key} black={isBlack}>{props.children}</Square>
+      <Highlight canDrop={canDrop} isOver={isOver} />
+    </div>
+  );
 };
 
 BoardSquare.propTypes = {
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-    isOver: PropTypes.bool.isRequired,
-    canDrop: PropTypes.bool.isRequired,
-    connectDropTarget: PropTypes.func.isRequired
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired
 };
 
-export default DropTarget(
-    Constants.ItemTypes.PIECE, Constants.DropTargets.SQUARE, Constants.DropTargets.collect
-)(withStyles(styles)(BoardSquare));
+export default withStyles(styles)(BoardSquare);
