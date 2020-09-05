@@ -40,7 +40,7 @@ export const AppProvider = ({ children }) => {
       case Constants.PieceTypes.ROOK:
         return (
           ( dx > 0 && !dy ) || ( !dx && dy > 0 )
-        );
+        ) && pieceHasPathTo(pid, destX, destY);
       case Constants.PieceTypes.KNIGHT:
         return (
           ( dx === 1 && dy === 2 ) || ( dx === 2 && dy === 1 )
@@ -48,15 +48,15 @@ export const AppProvider = ({ children }) => {
       case Constants.PieceTypes.BISHOP:
         return (
           ( dx === dy )
-        );
+        ) && pieceHasPathTo(pid, destX, destY);
       case Constants.PieceTypes.QUEEN:
         return (
           ( dx === dy ) || ( dx > 0 && !dy ) || ( !dx && dy > 0 )
-        );
+        ) && pieceHasPathTo(pid, destX, destY);
       case Constants.PieceTypes.KING:
         return (
           // Ignore rules for castling, etc
-          ( dx > 0 || dy > 0 ) && dx + dy < 2
+          ( dx <= 1 && dy <= 1 )
         );
       case Constants.PieceTypes.PAWN:
         // Pawns are special: they can only move forward!
@@ -68,10 +68,59 @@ export const AppProvider = ({ children }) => {
         return (
           // Ignoring rules for capturing
           forward && !dx && ( dy === 1 || ( !hasMoved && dy === 2 ) )
-        );
+        ) && pieceHasPathTo(pid, destX, destY);
       default:
         return false;
     }
+  };
+
+  const pieceHasPathTo = (pid, destX, destY) => {
+    const p = pieces[pid];
+    if ( !p ) {
+      return false;
+    }
+    if ( p.color !== turn ) {
+      return false;
+    }
+
+    const dx = Math.abs(p.x - destX);
+    const dy = Math.abs(p.y - destY);
+    if ( !dx ) {
+      // Moving vertically
+      for ( let y = Math.min(p.y, destY), t = Math.max(p.y, destY); y < t; y++ ) {
+        let target = getPieceBySquare(p.x, y);
+        if ( target && target.id !== pid && target.y !== destY ) {
+          return false;
+        }
+      }
+    }
+    else if ( !dy ) {
+      // Moving horizontally
+      for ( let x = Math.min(p.x, destX), t = Math.max(p.x, destX); x < t; x++ ) {
+        let target = getPieceBySquare(x, p.y);
+        if ( target && target.id !== pid && target.x !== destX ) {
+          return false;
+        }
+      }
+    }
+    else if ( dx === dy ) {
+      // Moving diagonally
+      let checks = [];
+      for ( 
+        let x = p.x, y = p.y, stepX = (p.x - destX) / dx, stepY = (p.y - destY) / dy;
+        ( (stepX > 0) ? x > destX : x < destX ) && ( (stepY > 0) ? y > destY : y < destY );
+        x = x - stepX, y = y - stepY
+      ) {
+        let target = getPieceBySquare(x, y);
+        if ( target && target.id !== pid && target.x !== destX ) {
+          return false;
+        }
+      }
+    }
+    // TODO: Special rules like castling, etc.
+
+    // Either no conflict, or is a piece that doesn't need a path (i.e. knight)
+    return true;
   };
 
   const movePieceTo = (pid, destX, destY) => {
