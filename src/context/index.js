@@ -18,6 +18,16 @@ export const AppProvider = ({ children }) => {
     return false;
   };
 
+  const canCapture = (piece, target) => {
+    if ( !target ) {
+      return true;
+    }
+    if ( piece.color !== target.color ) {
+      return true;
+    }
+    return false;
+  };
+
   const pieceCanMoveTo = (pid, destX, destY) => {
     let dx, dy, target, hasMoved;
     const p = pieces[pid];
@@ -28,10 +38,6 @@ export const AppProvider = ({ children }) => {
       return false;
     }
     target = getPieceBySquare(destX, destY);
-    if ( target ) {
-      // TODO: Check colour, whether capture is possible
-      return false;
-    }
     hasMoved = !!p.hasMoved;
     dx = Math.abs(p.x - destX);
     dy = Math.abs(p.y - destY);
@@ -40,24 +46,24 @@ export const AppProvider = ({ children }) => {
       case Constants.PieceTypes.ROOK:
         return (
           ( dx > 0 && !dy ) || ( !dx && dy > 0 )
-        ) && pieceHasPathTo(pid, destX, destY);
+        ) && pieceHasPathTo(pid, destX, destY) && canCapture(p, target);
       case Constants.PieceTypes.KNIGHT:
         return (
           ( dx === 1 && dy === 2 ) || ( dx === 2 && dy === 1 )
-        );
+        ) && canCapture(p, target);
       case Constants.PieceTypes.BISHOP:
         return (
           ( dx === dy )
-        ) && pieceHasPathTo(pid, destX, destY);
+        ) && pieceHasPathTo(pid, destX, destY) && canCapture(p, target);
       case Constants.PieceTypes.QUEEN:
         return (
           ( dx === dy ) || ( dx > 0 && !dy ) || ( !dx && dy > 0 )
-        ) && pieceHasPathTo(pid, destX, destY);
+        ) && pieceHasPathTo(pid, destX, destY) && canCapture(p, target);
       case Constants.PieceTypes.KING:
         return (
           // Ignore rules for castling, etc
           ( dx <= 1 && dy <= 1 )
-        );
+        ) && canCapture(p, target);
       case Constants.PieceTypes.PAWN:
         // Pawns are special: they can only move forward!
         // Black can only increase Y, white can only decrease
@@ -105,7 +111,6 @@ export const AppProvider = ({ children }) => {
     }
     else if ( dx === dy ) {
       // Moving diagonally
-      let checks = [];
       for ( 
         let x = p.x, y = p.y, stepX = (p.x - destX) / dx, stepY = (p.y - destY) / dy;
         ( (stepX > 0) ? x > destX : x < destX ) && ( (stepY > 0) ? y > destY : y < destY );
@@ -125,6 +130,7 @@ export const AppProvider = ({ children }) => {
 
   const movePieceTo = (pid, destX, destY) => {
     if ( pieceCanMoveTo(pid, destX, destY) ) {
+      capturePiece(pid, destX, destY);
       setPieces((currentPieces) => {
         currentPieces[pid] = {
           ...currentPieces[pid],
@@ -135,6 +141,20 @@ export const AppProvider = ({ children }) => {
         return currentPieces;
       });
       setTurn((turn === Constants.PieceColors.WHITE) ? Constants.PieceColors.BLACK : Constants.PieceColors.WHITE);
+    }
+  };
+
+  const capturePiece = (pid, destX, destY) => {
+    const target = getPieceBySquare(destX, destY);
+    if ( target ) {
+      setPieces((currentPieces) => {
+        currentPieces[target.id] = {
+          ...currentPieces[target.id],
+          x: undefined,
+          y: undefined
+        };
+        return currentPieces;
+      });
     }
   };
 
