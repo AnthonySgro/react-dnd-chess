@@ -6,8 +6,19 @@ import Constants from 'Constants';
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
+  const [moves, setMoves] = useState([]);
   const [turn, setTurn] = useState(Constants.PieceColors.WHITE);
   const [pieces, setPieces] = useState(Constants.PieceStartingPositions);
+
+  const getPieceById = (pid) => {
+    if ( pieces[pid] ) {
+      return {
+        ...pieces[pid],
+        id: pid
+      };
+    }
+    return false;
+  }
 
   const getPieceBySquare = (x, y) => {
     for ( let p in pieces ) {
@@ -130,7 +141,8 @@ export const AppProvider = ({ children }) => {
 
   const movePieceTo = (pid, destX, destY) => {
     if ( pieceCanMoveTo(pid, destX, destY) ) {
-      capturePiece(pid, destX, destY);
+      const target = getPieceBySquare(destX, destY);
+      const { x: fromX, y: fromY } = pieces[pid];
       setPieces((currentPieces) => {
         currentPieces[pid] = {
           ...currentPieces[pid],
@@ -141,26 +153,42 @@ export const AppProvider = ({ children }) => {
         return currentPieces;
       });
       setTurn((turn === Constants.PieceColors.WHITE) ? Constants.PieceColors.BLACK : Constants.PieceColors.WHITE);
-    }
-  };
-
-  const capturePiece = (pid, destX, destY) => {
-    const target = getPieceBySquare(destX, destY);
-    if ( target ) {
-      setPieces((currentPieces) => {
-        currentPieces[target.id] = {
-          ...currentPieces[target.id],
-          x: undefined,
-          y: undefined
-        };
-        return currentPieces;
+      
+      if ( target ) {
+        capturePiece(target);
+      }
+      setMoves((moves) => {
+        return [
+          ...moves,
+          {
+            fromX,
+            fromY,
+            destX,
+            destY,
+            pid,
+            captured: target ? target.id : false
+          }
+        ];
       });
     }
   };
 
+  const capturePiece = (target) => {
+    setPieces((currentPieces) => {
+      currentPieces[target.id] = {
+        ...currentPieces[target.id],
+        x: undefined,
+        y: undefined
+      };
+      return currentPieces;
+    });
+  };
+
   const value = {
+    moves,
     turn,
     setTurn,
+    getPieceById,
     getPieceBySquare,
     pieceCanMoveTo,
     movePieceTo

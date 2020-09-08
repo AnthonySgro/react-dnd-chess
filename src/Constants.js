@@ -1,16 +1,19 @@
 
-var Constants = {};
+export const BoardCoordinates = {
+  x: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+  y: [8, 7, 6, 5, 4, 3, 2, 1]
+};
 
-Constants.ItemTypes = {
+export const ItemTypes = {
     PIECE: 'chesspiece'
 };
 
-Constants.PieceColors = {
+export const PieceColors = {
     WHITE: 'White',
     BLACK: 'Black'
 };
 
-Constants.PieceTypes = {
+export const PieceTypes = {
     PAWN: 'pawn',
     KNIGHT: 'knight',
     ROOK: 'rook',
@@ -19,7 +22,7 @@ Constants.PieceTypes = {
     KING: 'king'
 };
 
-Constants.PieceStrings = {
+export const PieceStrings = {
     BLACK_PAWN: '♟',
     BLACK_ROOK: '♜',
     BLACK_KNIGHT: '♞',
@@ -34,204 +37,211 @@ Constants.PieceStrings = {
     WHITE_KING: '♔'
 };
 
-Constants.PieceStartingPositions = {
+export const PieceStartingPositions = {
     // White backline pieces
     'wR1': {
         x: 0, y: 7,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.ROOK,
-        pieceString: Constants.PieceStrings.WHITE_ROOK
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.ROOK,
+        pieceString: PieceStrings.WHITE_ROOK
     },
     'wN1': {
         x: 1, y: 7,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.KNIGHT,
-        pieceString: Constants.PieceStrings.WHITE_KNIGHT
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.KNIGHT,
+        pieceString: PieceStrings.WHITE_KNIGHT
     },
     'wB1': {
         x: 2, y: 7,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.BISHOP,
-        pieceString: Constants.PieceStrings.WHITE_BISHOP
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.BISHOP,
+        pieceString: PieceStrings.WHITE_BISHOP
     },
     'wQ': {
         x: 3, y: 7,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.QUEEN,
-        pieceString: Constants.PieceStrings.WHITE_QUEEN
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.QUEEN,
+        pieceString: PieceStrings.WHITE_QUEEN
     },
     'wK': {
         x: 4, y: 7,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.KING,
-        pieceString: Constants.PieceStrings.WHITE_KING
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.KING,
+        pieceString: PieceStrings.WHITE_KING
     },
     'wB2': {
         x: 5, y: 7,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.BISHOP,
-        pieceString: Constants.PieceStrings.WHITE_BISHOP
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.BISHOP,
+        pieceString: PieceStrings.WHITE_BISHOP
     },
     'wN2': {
         x: 6, y: 7,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.KNIGHT,
-        pieceString: Constants.PieceStrings.WHITE_KNIGHT
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.KNIGHT,
+        pieceString: PieceStrings.WHITE_KNIGHT
     },
     'wR2': {
         x: 7, y: 7,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.ROOK,
-        pieceString: Constants.PieceStrings.WHITE_ROOK
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.ROOK,
+        pieceString: PieceStrings.WHITE_ROOK
     },
     // White pawns
     'wp1': {
         x: 0, y: 6,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.WHITE_PAWN
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.WHITE_PAWN
     },
     'wp2': {
         x: 1, y: 6,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.WHITE_PAWN
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.WHITE_PAWN
     },
     'wp3': {
         x: 2, y: 6,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.WHITE_PAWN
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.WHITE_PAWN
     },
     'wp4': {
         x: 3, y: 6,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.WHITE_PAWN
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.WHITE_PAWN
     },
     'wp5': {
         x: 4, y: 6,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.WHITE_PAWN
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.WHITE_PAWN
     },
     'wp6': {
         x: 5, y: 6,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.WHITE_PAWN
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.WHITE_PAWN
     },
     'wp7': {
         x: 6, y: 6,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.WHITE_PAWN
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.WHITE_PAWN
     },
     'wp8': {
         x: 7, y: 6,
-        color: Constants.PieceColors.WHITE,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.WHITE_PAWN
+        color: PieceColors.WHITE,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.WHITE_PAWN
     },
     
     // Black backline pieces
     'bR1': {
         x: 0, y: 0,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.ROOK,
-        pieceString: Constants.PieceStrings.BLACK_ROOK
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.ROOK,
+        pieceString: PieceStrings.BLACK_ROOK
     },
     'bN1': {
         x: 1, y: 0,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.KNIGHT,
-        pieceString: Constants.PieceStrings.BLACK_KNIGHT
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.KNIGHT,
+        pieceString: PieceStrings.BLACK_KNIGHT
     },
     'bB1': {
         x: 2, y: 0,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.BISHOP,
-        pieceString: Constants.PieceStrings.BLACK_BISHOP
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.BISHOP,
+        pieceString: PieceStrings.BLACK_BISHOP
     },
     'bQ': {
         x: 3, y: 0,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.QUEEN,
-        pieceString: Constants.PieceStrings.BLACK_QUEEN
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.QUEEN,
+        pieceString: PieceStrings.BLACK_QUEEN
     },
     'bK': {
         x: 4, y: 0,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.KING,
-        pieceString: Constants.PieceStrings.BLACK_KING
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.KING,
+        pieceString: PieceStrings.BLACK_KING
     },
     'bB2': {
         x: 5, y: 0,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.BISHOP,
-        pieceString: Constants.PieceStrings.BLACK_BISHOP
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.BISHOP,
+        pieceString: PieceStrings.BLACK_BISHOP
     },
     'bN2': {
         x: 6, y: 0,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.KNIGHT,
-        pieceString: Constants.PieceStrings.BLACK_KNIGHT
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.KNIGHT,
+        pieceString: PieceStrings.BLACK_KNIGHT
     },
     'bR2': {
         x: 7, y: 0,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.ROOK,
-        pieceString: Constants.PieceStrings.BLACK_ROOK
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.ROOK,
+        pieceString: PieceStrings.BLACK_ROOK
     },
     // Black pawns
     'bp1': {
         x: 0, y: 1,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.BLACK_PAWN
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.BLACK_PAWN
     },
     'bp2': {
         x: 1, y: 1,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.BLACK_PAWN
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.BLACK_PAWN
     },
     'bp3': {
         x: 2, y: 1,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.BLACK_PAWN
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.BLACK_PAWN
     },
     'bp4': {
         x: 3, y: 1,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.BLACK_PAWN
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.BLACK_PAWN
     },
     'bp5': {
         x: 4, y: 1,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.BLACK_PAWN
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.BLACK_PAWN
     },
     'bp6': {
         x: 5, y: 1,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.BLACK_PAWN
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.BLACK_PAWN
     },
     'bp7': {
         x: 6, y: 1,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.BLACK_PAWN
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.BLACK_PAWN
     },
     'bp8': {
         x: 7, y: 1,
-        color: Constants.PieceColors.BLACK,
-        pieceType: Constants.PieceTypes.PAWN,
-        pieceString: Constants.PieceStrings.BLACK_PAWN
+        color: PieceColors.BLACK,
+        pieceType: PieceTypes.PAWN,
+        pieceString: PieceStrings.BLACK_PAWN
     }
 };
 
-export default Constants;
+export default {
+    BoardCoordinates,
+    ItemTypes,
+    PieceColors,
+    PieceTypes,
+    PieceStrings,
+    PieceStartingPositions
+};

@@ -9,7 +9,7 @@ import styles from './BoardStyles';
 
 const Board = (props) => {
   const { classes } = props;
-  const { turn, getPieceBySquare } = useContext(AppContext);
+  const { getPieceBySquare } = useContext(AppContext);
   let squares = [];
   for ( let y = 0; y < 8; y++ ) {
     for ( let x = 0; x < 8; x++ ) {
@@ -26,12 +26,9 @@ const Board = (props) => {
   }
 
   return (
-    <React.Fragment>
-      <h1>{turn}'s Turn</h1>
-      <div className={classes.board}>
-        {squares}
-      </div>
-    </React.Fragment>
+    <div className={classes.board}>
+      {squares}
+    </div>
   );
 };
 
